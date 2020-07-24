@@ -5,7 +5,7 @@ let io = require('socket.io')(http);
 let connections = {}
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  res.json({ payload: 'A simple socket API' })
 });
 
 io.on('connection', (socket) => {
@@ -17,6 +17,8 @@ io.on('connection', (socket) => {
   })
 });
 
-http.listen(process.env.PORT || 3000, () => {
-  console.log('listening on *:' + process.env.PORT);
+let port = process.env.PORT || 3000;
+
+http.listen(port, () => {
+  console.log('listening on *:' + port);
 });
