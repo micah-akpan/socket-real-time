@@ -1,8 +1,8 @@
-var app = require('express')();
-var http = require('http').createServer(app);
-var io = require('socket.io')(http);
+let app = require('express')();
+let http = require('http').createServer(app);
+let io = require('socket.io')(http);
 
-let connections = []
+let connections = {}
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
@@ -11,11 +11,8 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
   console.log('a user connected');
 
-  connections.push(socket.id)
-  // console.log(connections);
-
   socket.on('message', (chunk) => {
-    const data = { id: socket.id, message: chunk }
+    let data = { id: socket.id, ...chunk}
     io.emit('message', data);
   })
 });
